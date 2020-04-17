@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Boat = require('../../models/Boat');
 
+//All Backend Endpoints
+
 //Practice Get
 
 router.get('/test', (req, res)=>{

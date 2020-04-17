@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-
+//Boat Model Design and Restrictions
 const BoatSchema = new Schema({
     name:{
         type:String,
