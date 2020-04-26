@@ -27,7 +27,7 @@ router.post('/create', async (req, res)=>{
     }catch(err){
         res.status(400).json({
             msg:"Only one boat in database",
-            status: "false"
+            status: false
         })
     }
     
@@ -37,7 +37,7 @@ router.post('/create', async (req, res)=>{
 //Update Boat Data
 router.post('/send', async (req, res)=>{
     const {speed, direction} = req.body;
-    if(speed >100 ){
+    if(speed >20 ){
         return res.status(400).json({
             msg: "Speed is too high",
             status: false
