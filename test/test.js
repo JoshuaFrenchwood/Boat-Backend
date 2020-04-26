@@ -7,34 +7,11 @@ const fetch = require("node-fetch");
 
 let url = "http://localhost:5000";
 
-async function createBoat(){
-  try{
-      await fetch(url + "/data/create",{method:"POST"})
-  }catch(err){
-      console.log(err)
-  }
-};
 
-async function deleteBoat() {
-    try{
-        await fetch(url + "/data/delete", { method: "DELETE" })
-    }catch(err){
-        console.log(err)
-    }
-};
 
 chai.use(chaiHttp);
 
-/*
-    const get_data = async url => {
-  try {
-    const response = await fetch(url);
-    const json = await response.json();
-    console.log(json);
-  } catch (error) {
-    console.log(error);
-  }
-*/
+
 
 //create
 describe("Create the Boat in the Database", () => {
@@ -47,7 +24,7 @@ describe("Create the Boat in the Database", () => {
   })
   it("Create Boat With 0 Speed and 0 Direction", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/create")
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -69,7 +46,7 @@ describe("Fail To Create Multiple Boats", () => {
   })
   it("Only One Boat Allowed in Database", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/create")
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -90,7 +67,7 @@ describe("Update Boat Properly", () => {
   })
   it("Update Boat to speed = 10 and direction = 10", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: 10, direction: 10 })
       .end((err, res) => {
@@ -103,7 +80,7 @@ describe("Update Boat Properly", () => {
   });
   it("Fail to Update Boat, speed > 100", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: 100, direction: 10 })
       .end((err, res) => {
@@ -116,7 +93,7 @@ describe("Update Boat Properly", () => {
 
   it("Fail to Update Boat, speed < 0", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: -10, direction: 10 })
       .end((err, res) => {
@@ -129,7 +106,7 @@ describe("Update Boat Properly", () => {
 
   it("Fail to Update Boat, Direction too High", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: 10, direction: 100 })
       .end((err, res) => {
@@ -142,7 +119,7 @@ describe("Update Boat Properly", () => {
 
   it("Fail to Update Boat, Direction too Low", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: 10, direction: -100 })
       .end((err, res) => {
@@ -160,7 +137,7 @@ describe("Fail to Update Missing Boat", () => {
   });
   it("Database Empty, Fail to Update", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .post("/data/send")
       .send({ speed: 10, direction: 10 })
       .end((err, res) => {
@@ -181,7 +158,7 @@ describe("Delete Boat in Database", () => {
     })
   it("Deleted Boat", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .delete("/data/delete")
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -198,7 +175,7 @@ describe("Fail to Delete Boat from Empty Database", () => {
   });
   it("No Boat to Delete", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .delete("/data/delete")
       .end((err, res) => {
         expect(res).to.have.status(404);
@@ -218,7 +195,7 @@ describe("Get Boat Data", () => {
   });
   it("Retrieved All Boat Data for Client", (done) => {
     chai
-      .request("http://localhost:5000")
+      .request(url)
       .get("/data/get")
       .end((err, res) => {
         expect(res).to.have.status(200);
